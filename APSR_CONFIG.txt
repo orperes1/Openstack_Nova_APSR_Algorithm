@@ -1,0 +1,25 @@
+[DEFAULT]
+
+#determine how often the APSR controller will work
+
+INTERVAL_SIZE = 10
+
+# parameters for APSR algorithm estimate K factor
+
+ALPHA = 0.1
+
+# APSR's target decline ratio (0.1)
+
+EPSILON = 0.1
+
+# Set the APSR type, 0 - APSR , 1- APSR AVG
+
+TYPE = 0
+
+#Budget for overall number of queries
+
+BUDGET_SIZE = 100
+
+#APSR is allow to open up to MAX_SCHDULERS schedulers
+
+MAX_SCHDULERS = 100
