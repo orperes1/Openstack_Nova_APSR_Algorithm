@@ -55,21 +55,16 @@ class apsr_controller:
         self.s = 1
         self.flavor_dict = {}
         self.counter = 0
-        # LOG_FILENAME = '/root/log/APSR_CONTROLLER.log'
         LOG_FILENAME = 'APSR_CONTROLLER.log'
         self.LOG = setup_logger(LOG_FILENAME, LOG_FILENAME)
         self.shard_flavor_info = "/lib/python2.7/site-packages/nova/scheduler/shard_flavor_info.csv"
         self.shard_d = "/lib/python2.7/site-packages/nova/scheduler/shard_d.csv"
         self.shard_s = "/lib/python2.7/site-packages/nova/scheduler/shard_s.csv"
-        #self.share_flavor_file = open(self.shard_flavor_info, 'rb')  # reading CSV file
 
     def update_dict_from_csv(self):
         share_flavor_file = open(self.shard_flavor_info, 'rb')  # reading CSV file
-        #all_f = csv.reader(codecs.iterdecode(self.share_flavor_file, 'utf-8'), delimiter=',', quotechar='|')
         line = share_flavor_file.readline()
-        #for line in all_f :
 	while line != "":
-            print line 
 	    line = line.split(",")
             flavor_id = int(line[0])
             filter_host_len = int(line[1])
@@ -179,7 +174,7 @@ class apsr_controller:
     def main(self):
         # read configuration
         config           = configparser.ConfigParser()
-        config_name      = '/root/APSR_CONFIG.txt'
+        config_name      = '/etc/nova/APSR_CONFIG.txt'
         config.read(config_name)
         epsilon          = float(config['DEFAULT']['EPSILON'])
         interval         = int(config['DEFAULT']['INTERVAL_SIZE'])
@@ -226,10 +221,8 @@ class apsr_controller:
             slot_num += 1
             self.LOG.info("SLOT TIME: %d , estimate K : %d ,subsize group size (d) : %d ,num of schdulars : %d", slot_num, K,
                      self.d, self.s)
-            print(self.flavor_dict)
             print("SLOT TIME:" + str(slot_num) + ", estimate K : " + str(K) + " ,subsize group size (d) :" + str(
                 self.d) + " ,num of schdulars : " + str(self.s))
-            print self.counter
             time.sleep(interval)  # in sec
 
 
@@ -294,9 +287,6 @@ def s_done ():
 
 def update_dict_file( flavor_id, filter_host_len):
     f = open("/lib/python2.7/site-packages/nova/scheduler/shard_flavor_info.csv", "a")
-    #LOG_FILENAME = '/lib/python2.7/site-packages/nova/scheduler/APSR_CONTROLLER.log'
-    #LOG = setup_logger(LOG_FILENAME, LOG_FILENAME)
-    #LOG.info("liron:%s%s",flavor_id,filter_host_len)
     s = str(flavor_id) + "," + str(filter_host_len)
     f.write(s)
     f.close()
